@@ -23,19 +23,23 @@ function Validator(options) {
         formElement.onsubmit = e => {
             e.preventDefault()
 
-            // var isValid = true
-            // options.rules.forEach( rule => {
-            //     var inputElement = formElement.querySelector(rule.selector)
-            //     if(!validate(inputElement, rule)) isValid = false
-            // })
+            var isValid = true
+            options.rules.forEach( rule => {
+                var inputElement = formElement.querySelector(rule.selector)
+                if(!validate(inputElement, rule)) isValid = false
+            })
 
-            var dataInputs = formElement.querySelectorAll('[name]')
-            var dataValues = Array.from(dataInputs).reduce((output, input) => 
-                ({...output, [input.name] : input.value})
-            , {})
-
-            options.onSubmit(dataValues)
-            alert('Bạn đã đăng ký thành công')
+            if(isValid){
+                var dataInputs = formElement.querySelectorAll('[name]')
+                var dataValues = Array.from(dataInputs).reduce((output, input) => 
+                    ({...output, [input.name] : input.value})
+                , {})
+    
+                options.onSubmit(dataValues)
+                alert('Bạn đã đăng ký thành công')
+            }else{
+                options.onSubmit('Có lỗi')
+            }
         }
     }
 
